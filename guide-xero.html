@@ -6,103 +6,210 @@
   <title>PipeDrive to Xero Integration</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      max-width: 900px;
       margin: 2rem auto;
-      padding: 1rem;
-      line-height: 1.6;
+      padding: 2rem 2.5rem;
+      background: #f8fafc;
+      color: #222;
+      line-height: 1.7;
     }
-    h1, h2 {
-      color: #333;
+    header {
+      border-bottom: 2px solid #0077b6;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
     }
-    ul {
-      padding-left: 1.2rem;
+    h1 {
+      color: #0077b6;
+      font-size: 2.4rem;
+      margin-bottom: 0.2em;
+      letter-spacing: 0.01em;
+    }
+    h2 {
+      color: #023e8a;
+      font-size: 1.5rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #0077b6;
+      padding-left: 0.6em;
+      background: #e9f5fb;
+    }
+    h3 {
+      color: #0077b6;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    ol, ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1.2rem;
+    }
+    li {
+      margin-bottom: 0.7em;
+    }
+    a {
+      color: #0077b6;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    a:hover {
+      color: #023e8a;
+      text-decoration: none;
+    }
+    code {
+      background: #e9ecef;
+      color: #d6336c;
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      font-size: 0.98em;
     }
     img {
       display: block;
-      margin: 1rem 0;
-      max-width: 100%;
+      margin: 2rem auto;
+      max-width: 90%;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    dl {
+      background: #f1f5f9;
+      border-radius: 6px;
+      padding: 1em 1.5em;
+      margin: 1em 0 2em 0;
+      border-left: 4px solid #0077b6;
+    }
+    dt {
+      font-weight: bold;
+      margin-top: 0.8em;
+      color: #023e8a;
+    }
+    dd {
+      margin-left: 1.2em;
+      margin-bottom: 0.5em;
+    }
+    blockquote {
+      background: #e9f5fb;
+      border-left: 4px solid #0077b6;
+      margin: 1.5em 0;
+      padding: 1em 1.5em;
+      color: #333;
+      font-style: italic;
+      border-radius: 6px;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+      img {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>PipeDrive to Xero Integration</h1>
+    <p style="color:#555; font-size:1.1rem; margin-top:0.2em;">
+      <strong>Business Process Documentation</strong>
+    </p>
+  </header>
 
-  <h1>PipeDrive to Xero Integration</h1>
+  <main>
+    <section aria-labelledby="pipedrive-section">
+      <h2 id="pipedrive-section">PipeDrive</h2>
+      <ol>
+        <li>
+          A new field <strong>"Xero Invoice"</strong> has been added to the <span style="color:#0077b6;">“Xero”</span> group in the deal for manual invoice submission.
+        </li>
+        <li>
+          Integration works through <strong>Automations</strong>.
+        </li>
+        <li>
+          <strong>“Xero Invoice Run”</strong> automation triggers under the following conditions:
+          <ul>
+            <li>The deal is updated and the field <strong>“Xero Invoice”</strong> is set to <mark style="background:#e9f5fb; color:#0077b6;">Run</mark></li>
+            <li>The deal is moved to stage <strong>“Payment Received / Preparing”</strong> for the <em>Banno Lighting</em> flow</li>
+            <li>The deal is moved to stage <strong>“Payment Received”</strong> for the <em>LED World</em> flow</li>
+          </ul>
+        </li>
+        <li>
+          The automation sends a request with data to the webhook:
+          <dl>
+            <dt>Webhook</dt>
+            <dd>
+              <a href="https://ledworld.com.au/xero/invoice.php" target="_blank" rel="noopener">https://ledworld.com.au/xero/invoice.php</a>
+            </dd>
+            <dt>Data sent</dt>
+            <dd><code>dealID</code>, <code>phone</code>, <code>email</code></dd>
+            <dt>Additional parameter</dt>
+            <dd><code>env=production</code> (sends to live Xero)</dd>
+          </dl>
+        </li>
+        <li>
+          Additionally, the automation resets the “Xero Invoice” field to default and adds a comment to the deal:
+          <blockquote>
+            The invoice has been submitted to Xero.
+          </blockquote>
+        </li>
+      </ol>
+      <figure>
+        <img src="path/to/pipedrive-screenshot.jpg" alt="PipeDrive Integration Screenshot" />
+        <figcaption style="text-align:center; color:#555; font-size:0.98em;">PipeDrive: Invoice Submission Field and Automation</figcaption>
+      </figure>
+    </section>
 
-  <h2>PipeDrive</h2>
+    <section aria-labelledby="xero-section">
+      <h2 id="xero-section">Xero</h2>
+      <ol>
+        <li>
+          The integration with Xero works via a <strong>custom app</strong>.
+        </li>
+        <li>
+          The app connects to the Xero account. To grant access, open the authorization page:<br>
+          <a href="https://ledworld.com.au/xero/auth.php" target="_blank" rel="noopener">https://ledworld.com.au/xero/auth.php</a>
+        </li>
+        <li>
+          This page checks for an active access token. If none exists, it shows an authorization button.
+        </li>
+        <li>
+          Clicking the button opens a form to grant account access.
+        </li>
+        <li>
+          After successful submission, the app can create contacts and invoices in Xero.
+        </li>
+      </ol>
+      <figure>
+        <img src="path/to/xero-auth-screenshot.jpg" alt="Xero Authorization Screenshot" />
+        <figcaption style="text-align:center; color:#555; font-size:0.98em;">Xero: Authorization Flow</figcaption>
+      </figure>
+    </section>
 
-  <ol>
-    <li>
-      A new field <strong>"Xero Invoice"</strong> has been added to the “Xero” group in the deal for manual invoice submission.
-    </li>
-    <li>
-      Integration works through Automations.
-    </li>
-    <li>
-      <strong>“Xero Invoice Run”</strong> automation triggers under the following conditions:
-      <ul>
-        <li>The deal is updated and the field <strong>“Xero Invoice”</strong> is set to “Run”</li>
-        <li>The deal is moved to stage <strong>“Payment Received / Preparing”</strong> for the <em>Banno Lighting</em> flow</li>
-        <li>The deal is moved to stage <strong>“Payment Received”</strong> for the <em>LED World</em> flow</li>
-      </ul>
-    </li>
-    <li>
-      The automation sends a request with data to the webhook:
-      <ul>
-        <li><strong>Webhook:</strong> <a href="https://ledworld.com.au/xero/invoice.php" target="_blank">https://ledworld.com.au/xero/invoice.php</a></li>
-        <li><strong>Data sent:</strong> dealID, phone, email</li>
-        <li><strong>Additional parameter:</strong> <code>env=production</code> (sends to live Xero)</li>
-      </ul>
-    </li>
-    <li>
-      Additionally, the automation resets the “Xero Invoice” field to default and adds a comment to the deal:
-      <em>“The invoice has been submitted to Xero.”</em>
-    </li>
-  </ol>
-
-  <img src="path/to/pipedrive-screenshot.jpg" alt="PipeDrive Integration Screenshot" />
-
-  <h2>Xero</h2>
-
-  <ol>
-    <li>
-      The integration with Xero works via a custom app.
-    </li>
-    <li>
-      The app connects to the Xero account. To grant access, open the authorization page:  
-      <a href="https://ledworld.com.au/xero/auth.php" target="_blank">https://ledworld.com.au/xero/auth.php</a>
-    </li>
-    <li>
-      This page checks for an active access token. If none exists, it shows an authorization button.
-    </li>
-    <li>
-      Clicking the button opens a form to grant account access.
-    </li>
-    <li>
-      After successful submission, the app can create contacts and invoices in Xero.
-    </li>
-  </ol>
-
-  <img src="path/to/xero-auth-screenshot.jpg" alt="Xero Authorization Screenshot" />
-
-  <h2>Integration Logic</h2>
-
-  <ol>
-    <li>The invoice handling logic is hosted at <a href="https://ledworld.com.au/xero/" target="_blank">https://ledworld.com.au/xero/</a></li>
-    <li>This includes classes for interacting with both the PipeDrive and Xero APIs.</li>
-    <li>
-      The webhook <a href="https://ledworld.com.au/xero/invoice.php" target="_blank">invoice.php</a> performs the following:
-      <ul>
-        <li>Receives <code>dealID</code> from PipeDrive</li>
-        <li>Fetches the deal details</li>
-        <li>Prepares the data set for invoice creation</li>
-        <li>Checks if an invoice with the reference UID already exists</li>
-        <li>Sends data to Xero to create a new invoice or update an existing one</li>
-      </ul>
-    </li>
-  </ol>
-
-  <img src="path/to/webhook-flow-diagram.jpg" alt="Webhook Flow Diagram" />
-
+    <section aria-labelledby="logic-section">
+      <h2 id="logic-section">Integration Logic</h2>
+      <ol>
+        <li>
+          The invoice handling logic is hosted at
+          <a href="https://ledworld.com.au/xero/" target="_blank" rel="noopener">https://ledworld.com.au/xero/</a>
+        </li>
+        <li>
+          This includes classes for interacting with both the PipeDrive and Xero APIs.
+        </li>
+        <li>
+          The webhook <a href="https://ledworld.com.au/xero/invoice.php" target="_blank" rel="noopener">invoice.php</a> performs the following:
+          <ul>
+            <li>Receives <code>dealID</code> from PipeDrive</li>
+            <li>Fetches the deal details</li>
+            <li>Prepares the data set for invoice creation</li>
+            <li>Checks if an invoice with the reference UID already exists</li>
+            <li>Sends data to Xero to create a new invoice or update an existing one</li>
+          </ul>
+        </li>
+      </ol>
+      <figure>
+        <img src="path/to/webhook-flow-diagram.jpg" alt="Webhook Flow Diagram" />
+        <figcaption style="text-align:center; color:#555; font-size:0.98em;">Integration Webhook Flow Diagram</figcaption>
+      </figure>
+    </section>
+  </main>
 </body>
 </html>
