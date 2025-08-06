@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PipeDrive to Xero Integration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+    img {
+      display: block;
+      margin: 1rem 0;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>PipeDrive to Xero Integration</h1>
+
+  <h2>PipeDrive</h2>
+
+  <ol>
+    <li>
+      A new field <strong>"Xero Invoice"</strong> has been added to the “Xero” group in the deal for manual invoice submission.
+    </li>
+    <li>
+      Integration works through Automations.
+    </li>
+    <li>
+      <strong>“Xero Invoice Run”</strong> automation triggers under the following conditions:
+      <ul>
+        <li>The deal is updated and the field <strong>“Xero Invoice”</strong> is set to “Run”</li>
+        <li>The deal is moved to stage <strong>“Payment Received / Preparing”</strong> for the <em>Banno Lighting</em> flow</li>
+        <li>The deal is moved to stage <strong>“Payment Received”</strong> for the <em>LED World</em> flow</li>
+      </ul>
+    </li>
+    <li>
+      The automation sends a request with data to the webhook:
+      <ul>
+        <li><strong>Webhook:</strong> <a href="https://ledworld.com.au/xero/invoice.php" target="_blank">https://ledworld.com.au/xero/invoice.php</a></li>
+        <li><strong>Data sent:</strong> dealID, phone, email</li>
+        <li><strong>Additional parameter:</strong> <code>env=production</code> (sends to live Xero)</li>
+      </ul>
+    </li>
+    <li>
+      Additionally, the automation resets the “Xero Invoice” field to default and adds a comment to the deal:
+      <em>“The invoice has been submitted to Xero.”</em>
+    </li>
+  </ol>
+
+  <img src="path/to/pipedrive-screenshot.jpg" alt="PipeDrive Integration Screenshot" />
+
+  <h2>Xero</h2>
+
+  <ol>
+    <li>
+      The integration with Xero works via a custom app.
+    </li>
+    <li>
+      The app connects to the Xero account. To grant access, open the authorization page:  
+      <a href="https://ledworld.com.au/xero/auth.php" target="_blank">https://ledworld.com.au/xero/auth.php</a>
+    </li>
+    <li>
+      This page checks for an active access token. If none exists, it shows an authorization button.
+    </li>
+    <li>
+      Clicking the button opens a form to grant account access.
+    </li>
+    <li>
+      After successful submission, the app can create contacts and invoices in Xero.
+    </li>
+  </ol>
+
+  <img src="path/to/xero-auth-screenshot.jpg" alt="Xero Authorization Screenshot" />
+
+  <h2>Integration Logic</h2>
+
+  <ol>
+    <li>The invoice handling logic is hosted at <a href="https://ledworld.com.au/xero/" target="_blank">https://ledworld.com.au/xero/</a></li>
+    <li>This includes classes for interacting with both the PipeDrive and Xero APIs.</li>
+    <li>
+      The webhook <a href="https://ledworld.com.au/xero/invoice.php" target="_blank">invoice.php</a> performs the following:
+      <ul>
+        <li>Receives <code>dealID</code> from PipeDrive</li>
+        <li>Fetches the deal details</li>
+        <li>Prepares the data set for invoice creation</li>
+        <li>Checks if an invoice with the reference UID already exists</li>
+        <li>Sends data to Xero to create a new invoice or update an existing one</li>
+      </ul>
+    </li>
+  </ol>
+
+  <img src="path/to/webhook-flow-diagram.jpg" alt="Webhook Flow Diagram" />
+
+</body>
+</html>
