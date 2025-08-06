@@ -70,6 +70,43 @@
       border: 1px solid #dee2e6;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+    img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .image-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      cursor: pointer;
+    }
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 90%;
+      max-width: 1200px;
+      max-height: 90%;
+      object-fit: contain;
+    }
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #bbb;
     }
     dl {
       background: #f1f5f9;
@@ -153,7 +190,7 @@
         </li>
       </ol>
       <figure>
-        <img src="path/to/pipedrive-screenshot.jpg" alt="PipeDrive Integration Screenshot" />
+        <img src="https://heroku.webim.space/screens/1.jpg" alt="PipeDrive Integration Screenshot" onclick="openModal(this.src)" />
         <figcaption style="text-align:center; color:#555; font-size:0.98em;">PipeDrive: Invoice Submission Field and Automation</figcaption>
       </figure>
     </section>
@@ -179,7 +216,7 @@
         </li>
       </ol>
       <figure>
-        <img src="path/to/xero-auth-screenshot.jpg" alt="Xero Authorization Screenshot" />
+        <img src="https://heroku.webim.space/screens/2.jpg" alt="Xero Authorization Screenshot" onclick="openModal(this.src)" />
         <figcaption style="text-align:center; color:#555; font-size:0.98em;">Xero: Authorization Flow</figcaption>
       </figure>
     </section>
@@ -206,10 +243,43 @@
         </li>
       </ol>
       <figure>
-        <img src="path/to/webhook-flow-diagram.jpg" alt="Webhook Flow Diagram" />
+        <img src="https://heroku.webim.space/screens/3.jpg" alt="Webhook Flow Diagram" onclick="openModal(this.src)" />
         <figcaption style="text-align:center; color:#555; font-size:0.98em;">Integration Webhook Flow Diagram</figcaption>
       </figure>
     </section>
   </main>
+
+  <!-- Modal for full-size images -->
+  <div id="imageModal" class="image-modal" onclick="closeModal()">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+  </div>
+
+  <script>
+    function openModal(imgSrc) {
+      var modal = document.getElementById("imageModal");
+      var modalImg = document.getElementById("modalImage");
+      modal.style.display = "block";
+      modalImg.src = imgSrc;
+    }
+
+    function closeModal() {
+      document.getElementById("imageModal").style.display = "none";
+    }
+
+    // Close modal when clicking outside the image
+    document.getElementById("imageModal").addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
 </body>
 </html>
